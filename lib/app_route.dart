@@ -1,0 +1,256 @@
+import 'package:get/get.dart';
+import 'bindings/ai_chat_binding.dart';
+import 'bindings/auth_binding.dart';
+import 'bindings/feed_binding.dart';
+import 'bindings/main_overseer_binding.dart';
+import 'bindings/unified_setting_binding.dart';
+import 'views/admin_views/page_of_main/main_screen__admin.dart';
+import 'views/admin_views/request_and_courses/add_category_page.dart';
+import 'views/admin_views/request_and_courses/add_course_page.dart';
+import 'views/admin_views/request_and_courses/add_lessons_page.dart';
+import 'views/admin_views/request_and_courses/add_treatment_page.dart';
+import 'views/admin_views/request_and_courses/view_categorys_page.dart';
+import 'views/admin_views/request_and_courses/view_courses_page.dart';
+import 'views/admin_views/request_and_courses/view_finished_requests_page.dart';
+import 'views/admin_views/request_and_courses/view_in_processing_requests_page.dart';
+import 'views/admin_views/request_and_courses/view_pending_requests_page.dart';
+import 'views/admin_views/request_and_courses/view_rejected_requests_page.dart';
+import 'views/admin_views/request_and_courses/view_treatments_page.dart';
+import 'views/admin_views/request_and_courses/weekly_schedule_screen.dart';
+import 'views/admin_views/submit_verify_student.dart';
+import 'views/admin_views/users/add_over_seer_page.dart';
+import 'views/admin_views/users/view_over_seers_page.dart';
+import 'views/admin_views/users/view_patientes_page.dart';
+import 'views/admin_views/users/view_students_page.dart';
+import 'views/admin_views/users/view_verify_students_page.dart';
+import 'views/auth/auth_screen.dart';
+import 'views/public_views/chats/chat_screen.dart';
+import 'views/public_views/chats/conversations_screen.dart';
+import 'views/public_views/notifications_view.dart';
+import 'views/overseer_views/main_screen_overseer.dart';
+import 'views/public_views/posts/create_post_screen.dart';
+import 'views/public_views/posts/feed_screen.dart';
+import 'views/public_views/posts/pending_posts_screen.dart';
+import 'views/public_views/posts/post_detail_screen.dart';
+import 'views/public_views/settings/change_password_screen.dart';
+import 'views/public_views/settings/contact_admin_screen.dart';
+import 'views/public_views/settings/edit_profile_screen.dart';
+import 'views/public_views/settings/privacy_policy_screen.dart';
+import 'views/public_views/settings/profile_screen.dart';
+import 'views/public_views/settings/setting_screen.dart';
+import 'views/splash_screen.dart';
+import 'views/widgets/ai/ai_chat_screen.dart';
+
+List<GetPage<dynamic>> routes = [
+  GetPage(
+    name: "/",
+    page: () => SplashScreen(),
+  ),
+  // ========== AUTH ==========
+
+  GetPage(
+    name: AppRroute.auth,
+    page: () => AuthScreen(),
+    binding: AuthBinding(),
+  ),
+
+  // ========== GENERAL ==========
+  GetPage(name: AppRroute.splash, page: () => const SplashScreen()),
+  GetPage(name: AppRroute.notificationsView, page: () => NotificationsView()),
+  GetPage(name: AppRroute.conversations, page: () => const ConversationsScreen()),
+  GetPage(name: AppRroute.aiChat,page: () => AiChatScreen(),binding: AiChatBinding()),
+  GetPage(name: AppRroute.changePassword, page: () => ChangePasswordScreen()),
+  GetPage(name: AppRroute.privacyPolicy, page: () => PrivacyPolicyScreen()),
+  GetPage(name: AppRroute.contactSupport, page: () => ContactAdminScreen()),
+
+  // ================================================== CHAT (with arguments) ==========
+  GetPage(
+      name: AppRroute.chat,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>;
+        return ChatScreen(otherPartyProfile: args['otherPartyProfile'],conversationId: args['conversationId']);
+        }),
+  // =========================================================== POSTS (Feed) ==========
+  GetPage(name: AppRroute.feed, page: () => FeedScreen(), binding: FeedBinding()),
+  GetPage(name: AppRroute.createPost, page: () => CreatePostScreen()),
+  GetPage(name: AppRroute.postDetail,page: () => PostDetailScreen(postId: Get.arguments)),
+  GetPage(name: AppRroute.pendingPosts, page: () => const PendingPostsScreen()),
+
+  // ======================================================= UNIFIED SETTINGS & PROFILE ==========
+  GetPage(
+    name: AppRroute.unifiedSetting,
+    page: () => SettingScreen(),
+    binding: UnifiedSettingBinding(),
+  ),
+  GetPage(
+    name: AppRroute.unifiedProfileScreen,
+    page: () => ProfileScreen(),
+  ),
+  GetPage(
+    name: AppRroute.unifiedEditProfile,
+    page: () => EditProfileScreen(),
+  ),
+
+  // ========== OVERSEER ==========
+  GetPage(
+      name: AppRroute.mainScreenOverseer,
+      page: () => MainScreenOverseer(),
+      binding: MainOverseerBinding()),
+
+  // ========== ADMIN ==========
+  GetPage(
+    name: AppRroute.mainScreenAdmin,
+    page: () => MainScreenAdmin(),
+  ),
+  
+  GetPage(
+    name: AppRroute.addOverSeer,
+    page: () => AddOverSeerPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewOverSeers,
+    page: () => ViewOverSeersPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewStudents,
+    page: () => ViewStudentsPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewPatientes,
+    page: () => ViewPatientesPage(),
+  ),
+  GetPage(
+    name: AppRroute.verifyStudents,
+    page: () => ViewVerifyStudentsPage(),
+  ),
+  GetPage(
+    name: AppRroute.submitVerifyStudent,
+    page: () => SubmitVerifyStudent(studentModel: Get.arguments),
+  ),
+  GetPage(
+    name: AppRroute.addCourse,
+    page: () => AddCoursePage(),
+  ),
+  GetPage(
+    name: AppRroute.addTreatment,
+    page: () => AddTreatmentPage(),
+  ),
+  GetPage(
+    name: AppRroute.addLessons,
+    page: () => AddLessonsPage(),
+  ),
+  GetPage(
+    name: AppRroute.addCategory,
+    page: () => AddCategoryPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewCourses,
+    page: () => ViewCoursesPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewTreatments,
+    page: () => ViewTreatmentsPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewCategorys,
+    page: () => ViewCategorysPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewLessons,
+    page: () => WeeklyScheduleScreen(),
+  ),
+  GetPage(
+    name: AppRroute.viewPendingRequests,
+    page: () => ViewPendingRequestsPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewInProcessingRequests,
+    page: () => ViewInProcessingRequestsPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewFinishedRequests,
+    page: () => ViewFinishedRequestsPage(),
+  ),
+  GetPage(
+    name: AppRroute.viewRejectedRequests,
+    page: () => ViewRejectedRequestsPage(),
+  ),
+];
+
+class AppRroute {
+  static const String onboarding = '/onboarding';
+  // ========== AUTH ==========
+  static const String login = "/login";
+  static const String register = "/register";
+  static const String auth = "/auth";
+
+  // ========== GENERAL ==========
+  static const String homeScreenAll = "/homeScreenAll";
+  static const String notificationsView = "/notifications";
+  static const String chat = "/chat";
+  static const String conversations = "/conversations";
+  static const String viewOtherProfile = "/viewOtherProfile";
+  static const String aiChat = "/aiChat";
+  static const String changePassword = "/change_password";
+  static const String privacyPolicy = "/privacy_policy";
+  static const String contactSupport = "/contact_support";
+  static const String splash = "/splash";
+
+  // ========== POSTS ==========
+  static const String feed = "/feed";
+  static const String createPost = "/create_post";
+  static const String postDetail = "/post_detail";
+  static const String pendingPosts = '/pending_posts';
+
+  // ========== UNIFIED ==========
+  static const String unifiedSetting = "/unified_setting";
+  static const String unifiedProfileScreen = "/unifiedProfileScreen";
+  static const String unifiedEditProfile = "/unified_edit_profile";
+  static const String mainScreenGuest = "/mainScreenGuest";
+
+  // ========== STUDENT ==========
+  static const String mainScreenStudent = "/mainScreenStudent";
+  static const String studentRequests = "/studentRequests";
+  static const String studentProfileInfoScreen = "/studentProfileInfoScreen";
+  static const String showOwnedStudentRequest = "/showOwnedStudentRequest";
+  static const String viewVerify = "/viewVerify";
+
+  // ========== PATIENT ==========
+  static const String mainScreenPatient = "/mainScreenPatient";
+  static const String homeScreenPatient = "/homeScreenPatient";
+  static const String patientPage = "/patientPage";
+  static const String patientShowProfile = "/patientShowProfile";
+  static const String patientUpdateProfile = "/patientUpdateProfile";
+
+  // ========== OVERSEER ==========
+  static const String mainScreenOverseer = "/mainScreenOverseer";
+
+  // ========== ADMIN ==========
+  static const String mainScreenAdmin = "/mainScreenAdmin";
+  static const String adminHomeScreen = "/adminHomeScreen";
+  static const String addOverSeer = "/addOverSeer";
+  static const String viewOverSeers = "/viewOverSeers";
+  static const String viewStudents = "/viewStudents";
+  static const String viewPatientes = "/viewPatientes";
+  static const String verifyStudents = "/verifyStudents";
+  static const String submitVerifyStudent = "/submitVerifyStudent";
+  static const String addCourse = "/addCourse";
+  static const String addTreatment = "/addTreatment";
+  static const String addLessons = "/addLessons";
+  static const String addCategory = "/addCategory";
+  static const String viewCourses = "/viewCourses";
+  static const String viewTreatments = "/viewTreatments";
+  static const String viewCategorys = "/viewCategorys";
+  static const String viewLessons = "/viewLessons";
+  static const String viewPendingRequests = "/viewPendingRequests";
+  static const String viewInProcessingRequests = "/viewInProcessingRequests";
+  static const String viewFinishedRequests = "/viewFinishedRequests";
+  static const String viewRejectedRequests = "/viewRejectedRequests";
+
+  // ========== LEGACY (keep if needed) ==========
+  static const String home = "/home";
+  static const String homeScreen = "/homeScreen";
+  static const String notifications = "/notifications";
+  static const String profile = "/profile";
+  static const String gptProfile = "/gptProfile";
+}

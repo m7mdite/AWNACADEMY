@@ -1,0 +1,801 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get.dart';
+
+import '../../app_route.dart';
+import '../../controllers/admin_controllers/main_admin_controller.dart';
+import '../../controllers/home_dashboard_controller.dart';
+import '../../controllers/overseer_controllers/main_overseer_controller.dart';
+import '../../controllers/public_controllers/unified_setting_controller.dart';
+import '../../models/dashboard_model.dart';
+import '../../services/local_storge/local_user_storage.dart';
+import '../../utils/app_constants/app_images_constant.dart';
+import '../../utils/app_constants/app_theme_constants.dart';
+import '../../utils/app_constants/colors_constant.dart';
+import '../admin_views/admin_notify_dialog.dart';
+import '../admin_views/advertisement_management_screen.dart';
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_icon_app_bar.dart';
+import '../widgets/custom_photo_app_bar.dart';
+import '../widgets/dialog/submit_dialog.dart';
+
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+
+  final HomeController controller = Get.put(HomeController());
+  final UnifiedSettingController settingController =
+      Get.find<UnifiedSettingController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background, // ✅
+      appBar: CustomAppBar(
+        title: "الرئيسية",
+        actions: [
+          CustomIconAppBar(
+            iconData: Icons.chat,
+            onTap: ()  {
+                Get.toNamed(AppRroute.conversations);
+              
+            },
+          ),
+          CustomIconAppBar(
+            iconData: Icons.notifications,
+            onTap: ()  {
+                Get.toNamed(AppRroute.conversations);
+              
+            },
+            reverseColors: true,
+          ),
+        ],
+        automaticallyImplyLeading: false,
+        leading: Obx(() {
+          final pic = settingController.profilePicture.value;
+          return InkWell(
+           onTap: ()  {
+                Get.toNamed(AppRroute.conversations);
+              
+            },
+            child: CustomPhotoAppBar(pic: pic),
+          );
+        }),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Obx(() {
+        final role = settingController.role.value;
+        final isAdmin = controller.isAdmin.value;
+
+        final List<Widget> fabButtons = [];
+
+        if (isAdmin) {
+          fabButtons.add(_floatingPillButton(
+            icon: Icons.notifications_active,
+            label: "إرسال إشعار للجميع",
+            color: AppColors.primary,
+            onTap: () {
+              Get.dialog(
+                const AdminNotifyDialog(),
+                barrierDismissible: false,
+              );
+            },
+          ));
+        } else {
+          if (role == 'overseer') {
+            fabButtons.add(_floatingPillButton(
+              icon: Icons.history_edu_sharp,
+              label: "طلبات المعالجة",
+              color: AppColors.primary,
+              onTap: () {
+                if (Get.isRegistered<MainOverseerControllerImp>()) {
+                  Get.find<MainOverseerControllerImp>().toPage(1);
+                }
+              },
+            ));
+          }
+        }
+
+        if (fabButtons.isEmpty) return const SizedBox.shrink();
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (int i = 0; i < fabButtons.length; i++) ...[
+              if (i > 0) const SizedBox(height: 10),
+              fabButtons[i],
+            ],
+          ],
+        );
+      }),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          controller.onInit();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(AppImages.authBackground),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.linearToSrgbGamma(),
+            ),
+          ),
+          child: Obx(() {
+            if (controller.isLoading.value &&
+                controller.dashboard.value == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (controller.dashboard.value == null) {
+              return Center(
+                child: Text(
+                  'حدث خطأ في تحميل البيانات',
+                  style: TextStyle(color: AppColors.textPrimary), 
+                ),
+              );
+            }
+            final dashboard = controller.dashboard.value!;
+            final role = settingController.role.value;
+            return Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(AppImages.authBackground),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.linearToSrgbGamma(),
+                ),
+              ),
+              child: AnimationLimiter(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    children: [
+                      // ===== 1. إحصائيات الطلبات =====
+                      _buildStatsSection(dashboard.requests!, role),
+
+                      // ===== 2. الإعلانات (كاروسيل) =====
+                      if (dashboard.adv != null &&
+                          dashboard.adv!.data != null &&
+                          dashboard.adv!.data!.isNotEmpty)
+                        _buildAdvSection(dashboard.adv!.data!),
+
+                      if (dashboard.adv == null ||
+                          dashboard.adv!.data == null ||
+                          dashboard.adv!.data!.isEmpty)
+                        SizedBox(
+                          height: 20,
+                        ),
+                      // ===== 3. المساعد الذكي (لغير الأدمن) =====
+                      if (role != 'admin') _buildAiChatSection(),
+                      if (role == 'admin')
+                        _floatingPillButton(
+                            icon: Icons.campaign,
+                            label: "إدارة الإعلانات",
+                            color: AppColors.primary,
+                            onTap: () =>
+                                Get.to(() => AdvertisementManagementScreen())),
+
+                      // ===== 4. أفضل البوستات =====
+                      if (dashboard.topPosts != null &&
+                          dashboard.topPosts!.data != null &&
+                          dashboard.topPosts!.data!.isNotEmpty)
+                        _buildTopPostsSection(dashboard.topPosts!.data!),
+
+                      const SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatsSection(Requests stats, String role) {
+    final myCases = controller.dashboard.value?.myCases;
+    final users = controller.dashboard.value?.users;
+    return AnimationConfiguration.staggeredList(
+      position: 0,
+      duration: const Duration(milliseconds: 600),
+      child: SlideAnimation(
+        verticalOffset: 50,
+        child: FadeInAnimation(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.primary800, AppColors.primary500],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              border: Border.all(
+                  color: AppColors.primary, width: 2, strokeAlign: 10),
+              borderRadius: AppThemeConstants.borderRadius,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primary300,
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                )
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: const BoxDecoration(
+                            color: AppColors.white24,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.assessment,
+                            color: AppColors.white,
+                            size: 16,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'طلبات العلاج',
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: AppColors.white24,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        'الإجمالي: ${stats.total ?? 0}',
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildStatItem(
+                        icon: Icons.hourglass_empty,
+                        count: stats.pending ?? 0,
+                        label: 'انتظار',
+                        color: AppColors.warning),
+                    _buildStatItem(
+                        icon: Icons.settings,
+                        count: stats.processing ?? 0,
+                        label: 'معالجة',
+                        color: AppColors.primaryLightAccent),
+                    _buildStatItem(
+                        icon: Icons.check_circle,
+                        count: stats.finished ?? 0,
+                        label: 'مكتملة',
+                        color: AppColors.lightGreenAccent),
+                  ],
+                ),
+                if (users != null) ...[
+                  const SizedBox(height: 10),
+                  Container(height: 1, color: AppColors.white24),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.person, color: AppColors.white60, size: 14),
+                      const SizedBox(width: 6),
+                      const Text(
+                        'عدد المستخدمين الكلي',
+                        style: TextStyle(
+                          color: AppColors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      _buildMiniStat(
+                          count: users.countUsers ?? 0,
+                          label: 'مستخدم',
+                          color: AppColors.lightGreenAccent),
+                    ],
+                  ),
+                ],
+                if (myCases != null && role != 'admin') ...[
+                  const SizedBox(height: 10),
+                  Container(height: 1, color: AppColors.white24),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(Icons.person, color: AppColors.white60, size: 14),
+                      const SizedBox(width: 6),
+                      const Text(
+                        'حالاتي',
+                        style: TextStyle(
+                          color: AppColors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          if (myCases.pending != null)
+                            _buildMiniStat(
+                                count: myCases.pending!,
+                                label: 'انتظار',
+                                color: AppColors.warning),
+                          const SizedBox(width: 10),
+                          _buildMiniStat(
+                              count: myCases.inProcess ?? 0,
+                              label: 'معالجة',
+                              color: AppColors.primaryLightAccent),
+                          const SizedBox(width: 10),
+                          _buildMiniStat(
+                              count: myCases.finished ?? 0,
+                              label: 'مكتملة',
+                              color: AppColors.lightGreenAccent),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatItem({
+    required IconData icon,
+    required int count,
+    required String label,
+    required Color color,
+  }) {
+    return Column(
+      children: [
+        Icon(icon, color: AppColors.white, size: 24),
+        const SizedBox(height: 2),
+        Text(
+          count.toString(),
+          style: const TextStyle(
+            color: AppColors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          label,
+          style: const TextStyle(color: AppColors.white70, fontSize: 10),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMiniStat({
+    required int count,
+    required String label,
+    required Color color,
+  }) {
+    return Row(
+      children: [
+        Container(
+          width: 6,
+          height: 6,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          '$count',
+          style: const TextStyle(
+            color: AppColors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+          ),
+        ),
+        const SizedBox(width: 2),
+        const Text(
+          '',
+          style: TextStyle(color: AppColors.white60, fontSize: 9),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAdvSection(List<AdvItem> advs) {
+    return AnimationConfiguration.staggeredList(
+      position: 1,
+      duration: const Duration(milliseconds: 600),
+      child: SlideAnimation(
+        verticalOffset: 50,
+        child: FadeInAnimation(
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                height: 150,
+                child: PageView.builder(
+                  controller: controller.advPageController,
+                  onPageChanged: controller.onAdvPageChanged,
+                  itemCount: advs.length,
+                  itemBuilder: (context, index) {
+                    final adv = advs[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: adv.image?.url != null
+                              ? DecorationImage(
+                                  image: NetworkImage(adv.image!.url!),
+                                  fit: BoxFit.cover,
+                                )
+                              : null,
+                          color: adv.image?.url == null
+                              ? AppColors.primary400
+                              : null,
+                          borderRadius: AppThemeConstants.borderRadius,
+                          boxShadow: [
+                            BoxShadow(
+                                color: AppColors.black12,
+                                blurRadius: 8,
+                                offset: const Offset(0, 3))
+                          ],
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.elliptical(80, 10),
+                                    bottomRight: Radius.elliptical(80, 10),
+                                  ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      Color(0xCC000000),
+                                      Colors.transparent,
+                                    ],
+                                  ),
+                                ),
+                                child: Text(
+                                  adv.content ?? '',
+                                  style: const TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(advs.length, (i) {
+                  return Obx(() => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 3),
+                        width: controller.currentAdvIndex.value == i ? 20 : 8,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: controller.currentAdvIndex.value == i
+                              ? AppColors.primary
+                              : AppColors.grey300,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ));
+                }),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// ✅ رجع لمكانه الأصلي كقسم بالجسم (بدل ما كان مؤقتاً جوا
+  /// floatingActionButton)، ويظهر لغير الأدمن بس.
+  Widget _buildAiChatSection() {
+    return AnimationConfiguration.staggeredList(
+      position: 2,
+      duration: const Duration(milliseconds: 600),
+      child: SlideAnimation(
+        verticalOffset: 50,
+        child: FadeInAnimation(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: InkWell(
+              onTap: () => Get.toNamed(AppRroute.aiChat),
+              borderRadius: AppThemeConstants.borderRadius,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: BoxDecoration(
+                  color: AppColors.surface.withValues(alpha: 0.95),
+                  borderRadius: AppThemeConstants.borderRadius,
+                  border: Border.all(color: AppColors.success, width: 1.2),
+                  boxShadow: [
+                    BoxShadow(
+                        color: AppColors.black.withValues(alpha: 0.05),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2))
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.chat, color: AppColors.success, size: 28),
+                    const SizedBox(width: 12),
+                    Text(
+                      'المساعد الذكي',
+                      style: TextStyle(
+                          color: AppColors.success,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  /// زر بشكل حبة دواء (pill) للاستخدام حصراً جوا floatingActionButton —
+  /// نفس ستايل زر الأدمن القديم "إرسال إشعار للجميع"، بس بلون قابل
+  /// للتخصيص عشان يميّز كل إجراء عن التاني.
+  Widget _floatingPillButton({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: AppThemeConstants.borderRadius,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: AppColors.surface.withValues(alpha: 0.9),
+          border: Border.all(width: 1, color: color, strokeAlign: 10),
+          borderRadius: AppThemeConstants.borderRadius,
+          boxShadow: [
+            BoxShadow(
+              color: color.withValues(alpha: 0.2),
+              blurRadius: 3,
+              spreadRadius: 3,
+            )
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: color),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                  color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopPostsSection(List<DataPost> posts) {
+    return AnimationConfiguration.staggeredList(
+      position: 3,
+      duration: const Duration(milliseconds: 600),
+      child: SlideAnimation(
+        verticalOffset: 50,
+        child: FadeInAnimation(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'أفضل المنشورات',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primary),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        final localStorage = Get.find<LocalUserStorage>();
+                        final String? token = await localStorage.getToken();
+                        final role = settingController.role.value;
+                        // final isAdmin = controller.isAdmin.value;
+                        if (token != null) {
+                          if (role == 'admin') {
+                            if (Get.isRegistered<MainAdminControllerImp>()) {
+                              Get.find<MainAdminControllerImp>().toPage(2);
+                            }
+                          } else if (role == 'overseer') {
+                            if (Get.isRegistered<MainOverseerControllerImp>()) {
+                              Get.find<MainOverseerControllerImp>().toPage(2);
+                            }
+                          } 
+
+                          // Get.toNamed(AppRroute.feed);
+                        } else {
+                          Get.dialog(SubmitDialog(
+                            title: "تنبيه",
+                            question:
+                                "هذه الميزة متاحة فقط للمستخدمين المسجلين.",
+                            agreeBottontitle: "تسجيل الدخول",
+                            onTapSubmit: () {
+                              Get.offAllNamed(AppRroute.auth);
+                            },
+                          ));
+                        }
+                      },
+                      child: Text('عرض الكل',
+                          style: TextStyle(color: AppColors.primary)),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 320,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final post = posts[index];
+                    final String? firstImageUrl =
+                        post.images != null && post.images!.isNotEmpty
+                            ? post.images!.first.url
+                            : null;
+                    return Container(
+                      width: 240,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 8),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.cardColor
+                            .withValues(alpha: 0.95), // ✅ بدل white
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.elliptical(80, 10),
+                          bottomLeft: Radius.elliptical(10, 80),
+                          topRight: Radius.elliptical(10, 80),
+                          bottomRight: Radius.elliptical(80, 10),
+                        ),
+                        border: Border.all(color: AppColors.primary, width: 1),
+                        boxShadow: [
+                          BoxShadow(
+                              color: AppColors.black.withValues(alpha: 0.12),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2))
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 14,
+                                backgroundColor: AppColors.grey200,
+                                backgroundImage: post.publisher?.profilePhoto !=
+                                            null &&
+                                        post.publisher!.profilePhoto!.isNotEmpty
+                                    ? NetworkImage(
+                                        post.publisher!.profilePhoto!)
+                                    : null,
+                                child: post.publisher?.profilePhoto == null ||
+                                        post.publisher!.profilePhoto!.isEmpty
+                                    ? const Icon(Icons.person, size: 14)
+                                    : null,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  post.publisher?.fullName ?? '',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: AppColors.textPrimary, // ✅
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          if (firstImageUrl != null) ...[
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                firstImageUrl,
+                                height: 120,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, _, _) => Container(
+                                  height: 120,
+                                  color: AppColors.grey300,
+                                  child: const Icon(Icons.broken_image,
+                                      color: AppColors.grey),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                          Text(
+                            post.content ?? '',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: AppColors.textPrimary, // ✅
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Row(
+                            children: [
+                              Icon(Icons.thumb_up_outlined,
+                                  size: 14, color: AppColors.primary),
+                              const SizedBox(width: 2),
+                              Text('${post.countLikes ?? 0}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.textSecondary, // ✅
+                                  )),
+                              const SizedBox(width: 12),
+                              Icon(Icons.comment_outlined,
+                                  size: 14, color: AppColors.grey),
+                              const SizedBox(width: 2),
+                              Text('${post.countComments ?? 0}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.textSecondary, // ✅
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+

@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../controllers/post_controllers/post_controller.dart';
+import '../../../utils/app_constants/app_theme_constants.dart';
+import '../../../utils/app_constants/colors_constant.dart';
+import '../../public_views/posts/pending_posts_screen.dart';
+
+
+class PendingPostsButton extends StatelessWidget {
+  const PendingPostsButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final PostController controller = Get.find<PostController>();
+
+    return InkWell(
+      onTap: () => Get.to(() => const PendingPostsScreen()),
+      borderRadius: AppThemeConstants.borderRadius,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.warning.withValues(alpha: 0.08),
+          borderRadius: AppThemeConstants.borderRadius,
+          border: const Border(
+            right: BorderSide(color: AppColors.warning),
+            bottom: BorderSide(color: AppColors.warning),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(Icons.hourglass_top, color: AppColors.warning, size: 22),
+                Obx(() {
+                  final count = controller.pendingPosts.length;
+                  if (count == 0) return const SizedBox.shrink();
+                  return Positioned(
+                    top: -6,
+                    right: -8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 1),
+                      decoration: BoxDecoration(
+                        color: AppColors.error,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: AppColors.white, width: 1),
+                      ),
+                      constraints:
+                          const BoxConstraints(minWidth: 16, minHeight: 16),
+                      child: Text(
+                        '$count',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: AppColors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+            
+          ],
+        ),
+      ),
+    );
+  }
+}

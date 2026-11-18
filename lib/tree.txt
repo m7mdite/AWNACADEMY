@@ -1,0 +1,264 @@
+Folder PATH listing
+Volume serial number is A6AF-DCA9
+C:.
+|   api_link.dart
+|   app_route.dart
+|   main.dart
+|   tree.txt
+|   
++---bindings
+|       ai_chat_binding.dart
+|       auth_binding.dart
+|       feed_binding.dart
+|       general_binding.dart
+|       login_binding.dart
+|       main_overseer_binding.dart
+|       register_binding.dart
+|       unified_setting_binding.dart
+|       
++---controllers
+|   |   home_dashboard_controller.dart
+|   |   onboarding_controller.dart
+|   |   theme_controller.dart
+|   |   
+|   +---admin_controllers
+|   |       admin_home_controller.dart
+|   |       admin_notify_controller.dart
+|   |       admin_reports_controller.dart
+|   |       admin_request_controller.dart
+|   |       admin_users_controller.dart
+|   |       main_admin_controller.dart
+|   |       
+|   +---ai_controllers
+|   |       ai_chat_controller.dart
+|   |       
+|   +---auth_controllers
+|   |       auth_controller.dart
+|   |       login_controller.dart
+|   |       register_controller.dart
+|   |       
+|   +---conversations_controllers
+|   |       chat_controller.dart
+|   |       conversations_controller.dart
+|   |       
+|   +---notifications_controllers
+|   |       notification_controller.dart
+|   |       
+|   +---overseer_controllers
+|   |       main_overseer_controller.dart
+|   |       overseer_requests_controller.dart
+|   |       
+|   +---post_controllers
+|   |       comment_controller.dart
+|   |       post_controller.dart
+|   |       
+|   +---public_controllers
+|   |       admins_controller.dart
+|   |       public_controller.dart
+|   |       support_controller.dart
+|   |       unified_setting_controller.dart
+|   |       
+|   \---requests_controllers
+|           fill_request_controller.dart
+|           
++---models
+|   |   dashboard_model.dart
+|   |   
+|   +---admin_models
+|   |       advertisement_model.dart
+|   |       course_model.dart
+|   |       lesson_model.dart
+|   |       report_model.dart
+|   |       veify_student_model.dart
+|   |       
+|   +---auth_models
+|   |       login_model.dart
+|   |       register_model.dart
+|   |       
+|   +---conversations_models
+|   |       conversation_model.dart
+|   |       message_model.dart
+|   |       
+|   +---posts_models
+|   |       comment_model.dart
+|   |       post_model.dart
+|   |       
+|   +---public_models
+|   |       admin_model.dart
+|   |       cached_image.dart
+|   |       notification_model.dart
+|   |       profile_model.dart
+|   |       
+|   +---requests_models
+|   |       case_type_prediction_result_model.dart
+|   |       prediction_result_model.dart
+|   |       treatment_model.dart
+|   |       treatment_request_model.dart
+|   |       treatment_request_processing_s_model.dart
+|   |       
+|   \---student_models
+|           accept_request_model.dart
+|           
++---services
+|   +---functions
+|   |       handling_data.dart
+|   |       show_image_preview.dart
+|   |       show_snack.dart
+|   |       show_tooth_location_map.dart
+|   |       upload_picture.dart
+|   |       
+|   +---local_storge
+|   |       local_user_storage.dart
+|   |       secure_storage_service.dart
+|   |       
+|   +---notification
+|   |       websocket_events.dart
+|   |       websocket_service.dart
+|   |       
+|   \---remote
+|       |   crud.dart
+|       |   dashboard_remote.dart
+|       |   local_ai_remote.dart
+|       |   
+|       +---admin_remotes
+|       |       admin_remote.dart
+|       |       admin_reports_remote.dart
+|       |       
+|       \---public_remotes
+|           |   admins_remote.dart
+|           |   auth_remote.dart
+|           |   comment_remote.dart
+|           |   post_remote.dart
+|           |   public_remote.dart
+|           |   request_remote.dart
+|           |   support_remote.dart
+|           |   unified_profile_remote.dart
+|           |   
+|           \---conversations_remotes
+|                   chat_remote.dart
+|                   conversation_remote.dart
+|                   
++---utils
+|   +---app_constants
+|   |       ai_constants.dart
+|   |       app_constants.dart
+|   |       app_images_constant.dart
+|   |       app_spacing.dart
+|   |       app_theme.dart
+|   |       app_theme_constants.dart
+|   |       colors_constant.dart
+|   |       onboarding_constants.dart
+|   |       status_request.dart
+|   |       tooth_constants.dart
+|   |       
+|   \---validators
+|           register_validator.dart
+|           
+\---views
+    |   splash_screen.dart
+    |   
+    +---admin_views
+    |   |   admin_notify_dialog.dart
+    |   |   advertisement_management_screen.dart
+    |   |   submit_verify_student.dart
+    |   |   
+    |   +---page_of_main
+    |   |       admin_request_screen.dart
+    |   |       admin_users_screen.dart
+    |   |       main_screen__admin.dart
+    |   |       
+    |   +---request_and_courses
+    |   |       add_category_page.dart
+    |   |       add_course_page.dart
+    |   |       add_lessons_page.dart
+    |   |       add_treatment_page.dart
+    |   |       view_categorys_page.dart
+    |   |       view_courses_page.dart
+    |   |       view_finished_requests_page.dart
+    |   |       view_in_processing_requests_page.dart
+    |   |       view_pending_requests_page.dart
+    |   |       view_rejected_requests_page.dart
+    |   |       view_treatments_page.dart
+    |   |       weekly_schedule_screen.dart
+    |   |       
+    |   \---users
+    |           add_over_seer_page.dart
+    |           admin_reports_screen.dart
+    |           view_over_seers_page.dart
+    |           view_patientes_page.dart
+    |           view_students_page.dart
+    |           view_verify_students_page.dart
+    |           
+    +---auth
+    |       auth_screen.dart
+    |       login_form.dart
+    |       register_form.dart
+    |       
+    +---overseer_views
+    |       main_screen_overseer.dart
+    |       overseer_request_screen.dart
+    |       overseer_view_request_processing.dart
+    |       
+    +---public_views
+    |   |   home_screen.dart
+    |   |   notifications_view.dart
+    |   |   profile_view.dart
+    |   |   
+    |   +---chats
+    |   |       chat_screen.dart
+    |   |       conversations_screen.dart
+    |   |       
+    |   +---posts
+    |   |       create_post_screen.dart
+    |   |       edit_post_screen.dart
+    |   |       feed_screen.dart
+    |   |       pending_posts_screen.dart
+    |   |       post_card.dart
+    |   |       post_detail_screen.dart
+    |   |       
+    |   \---settings
+    |           change_password_screen.dart
+    |           contact_admin_screen.dart
+    |           edit_profile_screen.dart
+    |           privacy_policy_screen.dart
+    |           profile_screen.dart
+    |           setting_screen.dart
+    |           
+    +---request_views
+    |       modified_request.dart
+    |       
+    \---widgets
+        |   auth_text_form_field.dart
+        |   bottom_navigation_bar_icon.dart
+        |   botton_controller.dart
+        |   build_developer_credit.dart
+        |   container_images_home_inbording.dart
+        |   custom_app_bar.dart
+        |   custom_icon_app_bar.dart
+        |   custom_photo_app_bar.dart
+        |   default_container_profile.dart
+        |   default_no_data.dart
+        |   prediction_light_button.dart
+        |   select_one_option.dart
+        |   theme_switcher_widget.dart
+        |   
+        +---ai
+        |       ai_chat_screen.dart
+        |       chat_bubble.dart
+        |       typing_indicator.dart
+        |       
+        +---dialog
+        |       case_type_prediction_dialog.dart
+        |       prediction_result_dialog.dart
+        |       report_user_dialog.dart
+        |       submit_dialog.dart
+        |       
+        +---posts
+        |       pending_posts_button.dart
+        |       
+        \---requests
+                card_request_processing.dart
+                overseer_manage_request.dart
+                overseer_reject_request.dart
+                show_request.dart
+                

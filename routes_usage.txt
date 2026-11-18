@@ -1,0 +1,2 @@
+lib\controllers\public_controllers\unified_setting_controller.dart:164:    Get.toNamed(AppRroute.viewVerify);
+lib\views\widgets\custom_app_bar.dart:159:          onPressed: () => Get.toNamed('/viewVerify'),

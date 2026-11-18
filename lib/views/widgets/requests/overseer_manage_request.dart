@@ -1,0 +1,222 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import '../../../controllers/overseer_controllers/overseer_requests_controller.dart';
+import '../../../utils/app_constants/colors_constant.dart';
+import '../auth_text_form_field.dart';
+import '../botton_controller.dart';
+import '../dialog/submit_dialog.dart';
+
+class OverseerManageRequest extends StatelessWidget {
+  final OverseerRequestsControllerImpl controller =
+      Get.find<OverseerRequestsControllerImpl>();
+  OverseerManageRequest({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<OverseerRequestsControllerImpl>(
+      builder: (controller) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  onTap: () {
+                    controller.finishBool = false;
+                    controller.update();
+                  },
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 900),
+                    curve: Curves.ease,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "متابعة الحالة",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: controller.finishBool == false
+                                ? AppColors.success
+                                : AppColors.grey,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          height: 2,
+                          color: controller.finishBool == false
+                              ? AppColors.success
+                              : AppColors.grey,
+                          width: Get.width * 0.1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 900),
+                  curve: Curves.ease,
+                  child: InkWell(
+                    onTap: () {
+                      controller.finishBool = true;
+                      controller.update();
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "إنهاء وقبول",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: !controller.finishBool
+                                ? AppColors.grey
+                                : AppColors.primary,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Container(
+                          height: 2,
+                          color: !controller.finishBool
+                              ? AppColors.grey
+                              : AppColors.primary,
+                          width: Get.width * 0.1,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            controller.finishBool
+                ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Obx(
+                        () => Text(
+                          "التقييم: ${controller.selectedRating.value}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Column(
+                        children: [
+                          SizedBox(height: 8),
+                          RatingBar.builder(
+                            initialRating:
+                                controller.selectedRating.value.toDouble(),
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: false,
+                            itemCount: 5,
+                            itemSize: 30.0,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+                            
+
+                            itemBuilder: (context, index) {
+                              final isSelected =
+                                  index < controller.selectedRating.value;
+                              final number = index + 1; // 1, 2, 3, 4, 5
+
+                              return Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  // أيقونة الأسنان
+                                  FaIcon(
+                                  
+                                    FontAwesomeIcons.tooth ,
+                                    color: isSelected
+                                        ? AppColors.primary700
+                                        : AppColors.grey300,
+                                    size: 40,
+                                  ),
+                                  // الرقم في المنتصف
+                                  Positioned(
+                                    top: 5,
+                                    child: Text(
+                                      '$number',
+                                      style: TextStyle(
+                                        color: isSelected
+                                            ? AppColors.white
+                                            : AppColors.grey.shade600,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                            onRatingUpdate: (rating) {
+                              controller.selectedRating.value = rating.round();
+                            },
+                            updateOnDrag: true,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      AuthTextFormField(
+                        label: "ملاحظة",
+                        textEditingController:
+                            controller.textEditingControllerFeedback,
+                      ),
+                    ],
+                  )
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (controller
+                          .selectRequest.stageEvaluations!.isNotEmpty) ...[
+                        Center(
+                          child: BottonContainer(
+                            body: "عرض التقييمات السابقة",
+                            fontSize: 12,
+                            onTap: () {
+                              Get.dialog(
+                                SubmitDialog(
+                                  children: [
+                                    ...controller
+                                        .selectRequest.stageEvaluations!
+                                        .map((e) => Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Flexible(child: Text(e.text!)),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(e.date!.split('-')[0]),
+                                              ],
+                                            ))
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                      ],
+                      AuthTextFormField(
+                        label: "إضافة تقييم مرحلي",
+                        textEditingController:
+                            controller.textEditingControllerAddEvaluation,
+                      ),
+                    ],
+                  ),
+          ],
+        );
+      },
+    );
+  }
+}

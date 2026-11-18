@@ -1,0 +1,12 @@
+lib\services\remote\admin_remotes\admin_remote.dart:54:      crud.postData('${ApiLink.categories}/$id/delete', {});
+lib\services\remote\admin_remotes\admin_remote.dart:100:      crud.getData('${ApiLink.getOverSeerForCourse}/$courseId');
+lib\services\remote\admin_remotes\admin_reports_remote.dart:8:  Future<ApiResult> getPendingReports() => crud.getData(ApiLink.adminReports);
+lib\services\remote\dashboard_remote.dart:8:  Future<ApiResult> getDashboard() => crud.getData(ApiLink.dashboard);
+lib\services\remote\public_remotes\admins_remote.dart:8:  Future<ApiResult> getAllAdmins() => _crud.getData('${ApiLink.report}/admins');
+lib\services\remote\public_remotes\auth_remote.dart:8:  Future<ApiResult> register(Map data) => crud.postData(ApiLink.register, data);
+lib\services\remote\public_remotes\public_remote.dart:16:      crud.postData('${ApiLink.report}/$userId', {
+lib\services\remote\public_remotes\request_remote.dart:9:  Future<ApiResult> getTreatments() => crud.getData(ApiLink.treatments);
+lib\services\remote\public_remotes\request_remote.dart:30:      crud.getData('${ApiLink.getOverSeerForCourse}/$id');
+lib\services\remote\public_remotes\request_remote.dart:40:      crud.putData('${ApiLink.changeCaseRequest}/$idR', data, id: idC);
+lib\services\remote\public_remotes\request_remote.dart:43:      crud.putData(ApiLink.rejectRequest, data, id: id);
+lib\services\remote\public_remotes\unified_profile_remote.dart:20:      crud.postDataWithFiles(ApiLink.verify, {}, [image.path], 'document');

@@ -1,0 +1,71 @@
+Analyzing mytoothadmin...                                       
+
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:20:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:21:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:22:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:23:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:24:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:25:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:26:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:27:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:28:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:29:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:30:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:31:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:32:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:33:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:34:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:36:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:37:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:38:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:39:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:40:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:41:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:42:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:43:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:44:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_request_controller.dart:45:3 - strict_top_level_inference
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\controllers\admin_controllers\admin_request_controller.dart:754:19 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\controllers\admin_controllers\admin_request_controller.dart:808:19 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\controllers\admin_controllers\admin_request_controller.dart:897:19 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\controllers\admin_controllers\admin_request_controller.dart:910:19 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement - lib\controllers\admin_controllers\admin_request_controller.dart:964:19 - deprecated_member_use
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:16:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:17:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:18:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:19:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:20:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:21:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:22:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:23:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:24:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:25:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:26:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:27:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:28:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:29:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\admin_users_controller.dart:30:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\main_admin_controller.dart:52:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\main_admin_controller.dart:59:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\admin_controllers\main_admin_controller.dart:63:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\ai_controllers\ai_chat_controller.dart:9:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\ai_controllers\ai_chat_controller.dart:10:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\ai_controllers\ai_chat_controller.dart:11:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\ai_controllers\ai_chat_controller.dart:12:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\ai_controllers\ai_chat_controller.dart:13:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\ai_controllers\ai_chat_controller.dart:14:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\main_overseer_controller.dart:49:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\main_overseer_controller.dart:56:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\main_overseer_controller.dart:60:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:17:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:18:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:19:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:20:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:21:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:22:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:23:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:24:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:25:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:26:3 - strict_top_level_inference
+   info - Missing type annotation. Try adding a type annotation - lib\controllers\overseer_controllers\overseer_requests_controller.dart:45:3 - strict_top_level_inference
+
