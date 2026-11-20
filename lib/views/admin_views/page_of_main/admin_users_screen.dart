@@ -1,10 +1,14 @@
+// lib/views/admin_views/page_of_main/admin_users_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/admin_controllers/admin_users_controller.dart';
 import '../../../services/functions/reset_server.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../../widgets/custom_icon_app_bar.dart';
+import '../widgets/admin_menu_widgets.dart';
 
 class AdminUsersScreen extends StatelessWidget {
   final AdminUsersControllerImpl controller = Get.put(
@@ -16,121 +20,154 @@ class AdminUsersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: CustomAppBar(
         title: "إدارة المستخدمين",
         centerTitle: true,
+        automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            icon: Icon(Icons.exit_to_app_outlined, color: AppColors.white),
-            onPressed: () => controller.logout(),
+          CustomIconAppBar(
+            iconData: Icons.logout_outlined,
+            reverseColors: true,
+            onTap: () => controller.logout(),
           ),
         ],
-        automaticallyImplyLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GridView.count(
-          crossAxisCount: 2, // عدد الأعمدة
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: 1.2, // نسبة العرض إلى الارتفاع
-          children: [
-            _buildCard(
-              title: 'إضافة مشرف',
-              icon: Icons.person_add,
-              color: AppColors.success,
-              onTap: () => controller.toAddOverSeerPage(),
-            ),
-            _buildCard(
-              title: 'عرض المشرفين',
-              icon: Icons.people,
-              color: AppColors.primary,
-              onTap: () {
-                controller.getAllOverSeers();
-                controller.toViewOverSeersPage();
-              },
-            ),
-            _buildCard(
-              title: 'عرض الطلاب',
-              icon: Icons.school,
-              color: AppColors.warning,
-              onTap: () {
-                controller.getAllStudents();
-                controller.toViewStudentsPage();
-              },
-            ),
-            _buildCard(
-              title: 'طلبات التوثيق',
-              icon: Icons.verified,
-              color: AppColors.purple,
-              onTap: () {
-                controller.getAllVerifyStudents();
-                controller.toViewVerifyStudentsPage();
-              },
-            ),
-            _buildCard(
-              title: 'عرض المرضى',
-              icon: Icons.health_and_safety,
-              color: Colors.teal,
-              onTap: () {
-                controller.getAllPatientes();
-                controller.toViewPatientesPage();
-              },
-            ),
-            _buildCard(
-              title: 'البلاغات',
-              icon: Icons.report_problem,
-              color: AppColors.error,
-              onTap: () => controller.toReportsPage(),
-            ),
-            _buildCard(
-              title: 'تغيير عنوان السيرفر',
-              icon: Icons.dns_rounded,
-              color: Colors.blueGrey,
-              onTap: confirmResetServer,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCard({
-    required String title,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [color.withValues(alpha: 0.7), color],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 48, color: AppColors.white),
-              const SizedBox(height: 12),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white,
+      body: AdminPageBackground(
+        child: AnimationLimiter(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ===== المشرفون =====
+                AdminAnimatedItem(
+                  position: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AdminSectionHeader(
+                        icon: Icons.admin_panel_settings,
+                        title: "المشرفون",
+                      ),
+                      AdminMenuGrid(
+                        children: [
+                          AdminMenuCard(
+                            title: 'إضافة مشرف',
+                            icon: Icons.person_add,
+                            color: AppColors.success,
+                            onTap: () => controller.toAddOverSeerPage(),
+                          ),
+                          AdminMenuCard(
+                            title: 'عرض المشرفين',
+                            icon: Icons.people,
+                            color: AppColors.primaryAccent,
+                            onTap: () {
+                              controller.getAllOverSeers();
+                              controller.toViewOverSeersPage();
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ],
+
+                // ===== الطلاب =====
+                AdminAnimatedItem(
+                  position: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AdminSectionHeader(
+                        icon: Icons.school,
+                        title: "الطلاب",
+                      ),
+                      AdminMenuGrid(
+                        children: [
+                          AdminMenuCard(
+                            title: 'عرض الطلاب',
+                            icon: Icons.school,
+                            color: AppColors.warning,
+                            onTap: () {
+                              controller.getAllStudents();
+                              controller.toViewStudentsPage();
+                            },
+                          ),
+                          AdminMenuCard(
+                            title: 'طلبات التوثيق',
+                            icon: Icons.verified,
+                            color: AppColors.purple,
+                            onTap: () {
+                              controller.getAllVerifyStudents();
+                              controller.toViewVerifyStudentsPage();
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ===== المرضى والبلاغات =====
+                AdminAnimatedItem(
+                  position: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AdminSectionHeader(
+                        icon: Icons.health_and_safety,
+                        title: "المرضى والبلاغات",
+                      ),
+                      AdminMenuGrid(
+                        children: [
+                          AdminMenuCard(
+                            title: 'عرض المرضى',
+                            icon: Icons.health_and_safety,
+                            color: AppColors.teal,
+                            onTap: () {
+                              controller.getAllPatientes();
+                              controller.toViewPatientesPage();
+                            },
+                          ),
+                          AdminMenuCard(
+                            title: 'البلاغات',
+                            icon: Icons.report_problem,
+                            color: AppColors.error,
+                            onTap: () => controller.toReportsPage(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ===== النظام =====
+                AdminAnimatedItem(
+                  position: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AdminSectionHeader(
+                        icon: Icons.settings,
+                        title: "النظام",
+                      ),
+                      AdminMenuGrid(
+                        children: [
+                          AdminMenuCard(
+                            title: 'تغيير عنوان السيرفر',
+                            icon: Icons.dns_rounded,
+                            color: Colors.blueGrey,
+                            onTap: confirmResetServer,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

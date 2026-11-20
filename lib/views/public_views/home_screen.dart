@@ -3,6 +3,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '../../app_route.dart';
+import '../../controllers/admin_controllers/admin_stats_controller.dart';
 import '../../controllers/admin_controllers/main_admin_controller.dart';
 import '../../controllers/home_dashboard_controller.dart';
 import '../../controllers/overseer_controllers/main_overseer_controller.dart';
@@ -14,6 +15,7 @@ import '../../utils/app_constants/app_theme_constants.dart';
 import '../../utils/app_constants/colors_constant.dart';
 import '../admin_views/admin_notify_dialog.dart';
 import '../admin_views/advertisement_management_screen.dart';
+import '../admin_views/widgets/admin_stats_section.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_icon_app_bar.dart';
 import '../widgets/custom_photo_app_bar.dart';
@@ -110,6 +112,11 @@ class HomeScreen extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: () async {
           controller.onInit();
+          // الأدمن: تحديث الإحصاءات المدمجة بالصفحة الرئيسية أيضًا
+          if (settingController.role.value == 'admin' &&
+              Get.isRegistered<AdminStatsController>()) {
+            await Get.find<AdminStatsController>().fetchStats();
+          }
         },
         child: Container(
           decoration: BoxDecoration(
@@ -144,8 +151,10 @@ class HomeScreen extends StatelessWidget {
               ),
               child: AnimationLimiter(
                 child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.only(bottom: 20),
+                  physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
+                  ),
+                  padding: const EdgeInsets.only(bottom: 90),
                   child: Column(
                     children: [
                       // ===== 1. إحصائيات الطلبات =====
@@ -172,6 +181,9 @@ class HomeScreen extends StatelessWidget {
                             color: AppColors.primary,
                             onTap: () =>
                                 Get.to(() => AdvertisementManagementScreen())),
+
+                      // ===== 3.ب إحصاءات الأدمن (كانت صفحة مستقلة) =====
+                      if (role == 'admin') AdminStatsSection(),
 
                       // ===== 4. أفضل البوستات =====
                       if (dashboard.topPosts != null &&
@@ -797,5 +809,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../views/admin_views/page_of_main/admin_request_screen.dart';
-import '../../views/admin_views/page_of_main/admin_stats_screen.dart';
 import '../../views/admin_views/page_of_main/admin_users_screen.dart';
 import '../../views/public_views/home_screen.dart';
 import '../../views/public_views/posts/feed_screen.dart';
@@ -14,7 +13,7 @@ class MainAdminControllerImp extends MainAdminController {
 
   PageController pageController = PageController(initialPage: 0);
 
-  // قائمة الصفحات مع بياناتها (الإحصاءات في النهاية حتى لا تتغير فهارس الصفحات الأخرى)
+  // قائمة الصفحات (الإحصاءات صارت جزءًا من الصفحة الرئيسية)
   final List<Map<String, dynamic>> listPage = [
     {
       "title": "الصفحة الرئيسية",
@@ -35,11 +34,6 @@ class MainAdminControllerImp extends MainAdminController {
       "title": "المستخدمين ",
       "icon": Icons.account_circle,
       "page": AdminUsersScreen()
-    },
-    {
-      "title": "الإحصاءات",
-      "icon": Icons.bar_chart,
-      "page": AdminStatsScreen()
     },
   ];
 
