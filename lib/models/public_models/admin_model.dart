@@ -1,4 +1,6 @@
 // models/public_models/admin_model.dart
+import '../../api_link.dart';
+
 class AdminModel {
   final String id;
   final String firstName;
@@ -27,7 +29,11 @@ class AdminModel {
       if (value is String) return value.isEmpty ? null : value;
       if (value is Map) {
         // جرب المفاتيح الشائعة يلي ممكن الباك يرجعها
-        final url = value['url'] ?? value['path'] ?? value['filename'] ?? value['image'];
+        final url =
+            value['url'] ??
+            value['path'] ??
+            value['filename'] ??
+            value['image'];
         if (url is String && url.isNotEmpty) return url;
       }
       return null;
@@ -39,7 +45,7 @@ class AdminModel {
       fatherName: profile['father_name']?.toString() ?? '',
       lastName: profile['last_name']?.toString() ?? '',
       fullName: profile['full_name']?.toString() ?? '',
-      profilePhoto: extractPhotoUrl(profile['profile_photo']),
+      profilePhoto: ApiLink.fixUrl(extractPhotoUrl(profile['profile_photo'])),
       bio: profile['bio']?.toString(),
     );
   }

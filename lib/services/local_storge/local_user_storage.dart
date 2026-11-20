@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../../api_link.dart';
 import 'secure_storage_service.dart';
 
 class LocalUserStorage extends GetxService {
@@ -156,12 +157,12 @@ String? getRoleSync() => _cachedRole ?? _box.read(_roleKey);
 
   Future<void> saveProfilePhotoUrl(String? url) async =>
       await _box.write('${_profilePrefix}photo_url', url);
-  String? getProfilePhotoUrl() => _box.read('${_profilePrefix}photo_url');
-
+String? getProfilePhotoUrl() =>
+    ApiLink.fixUrl(_box.read('${_profilePrefix}photo_url'));
   Future<void> saveProfilePicture(String url) async =>
       await _box.write('${_profilePrefix}profile_picture', url);
-  String? getProfilePicture() => _box.read('${_profilePrefix}profile_picture');
-
+String? getProfilePicture() =>
+    ApiLink.fixUrl(_box.read('${_profilePrefix}profile_picture'));
   Future<void> saveV(int v) async => await _box.write('${_profilePrefix}v', v);
   int? getV() => _box.read('${_profilePrefix}v');
 

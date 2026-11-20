@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../views/admin_views/page_of_main/admin_request_screen.dart';
+import '../../views/admin_views/page_of_main/admin_stats_screen.dart';
 import '../../views/admin_views/page_of_main/admin_users_screen.dart';
 import '../../views/public_views/home_screen.dart';
 import '../../views/public_views/posts/feed_screen.dart';
@@ -11,10 +12,9 @@ abstract class MainAdminController extends GetxController {}
 class MainAdminControllerImp extends MainAdminController {
   String titleAppBar = "";
 
-
   PageController pageController = PageController(initialPage: 0);
-  
-  // قائمة الصفحات مع بياناتها
+
+  // قائمة الصفحات مع بياناتها (الإحصاءات في النهاية حتى لا تتغير فهارس الصفحات الأخرى)
   final List<Map<String, dynamic>> listPage = [
     {
       "title": "الصفحة الرئيسية",
@@ -36,11 +36,15 @@ class MainAdminControllerImp extends MainAdminController {
       "icon": Icons.account_circle,
       "page": AdminUsersScreen()
     },
+    {
+      "title": "الإحصاءات",
+      "icon": Icons.bar_chart,
+      "page": AdminStatsScreen()
+    },
   ];
 
-  // var titleAppBar = "".obs;
   int selectedPage = 0;
-  
+
   // دالة مساعدة للحصول على عناصر الـ BottomNavigationBar
   List<Map<String, dynamic>> get bottomNavItems {
     return listPage.map((item) => {
@@ -48,7 +52,7 @@ class MainAdminControllerImp extends MainAdminController {
       "icon": item["icon"],
     }).toList();
   }
-  
+
   void toPage(int index) {
     titleAppBar = listPage[index]["title"];
 

@@ -1,4 +1,6 @@
 // lib/models/admin/lesson_model.dart
+import '../../api_link.dart';
+
 class LessonModel {
   String? sId;
   String? time;          // "الأحد-08:00"
@@ -166,8 +168,7 @@ class ProfilePhoto {
   String? url;
   ProfilePhoto({this.url});
   ProfilePhoto.fromJson(Map<String, dynamic> json) {
-    url = json['url'];
-  }
+url = ApiLink.fixUrl(json['url']);  }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['url'] = url;

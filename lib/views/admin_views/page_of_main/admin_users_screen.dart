@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/admin_controllers/admin_users_controller.dart';
+import '../../../services/functions/reset_server.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../widgets/custom_app_bar.dart';
 
 class AdminUsersScreen extends StatelessWidget {
-  final AdminUsersControllerImpl controller =
-      Get.put(AdminUsersControllerImpl());
+  final AdminUsersControllerImpl controller = Get.put(
+    AdminUsersControllerImpl(),
+  );
 
   AdminUsersScreen({super.key});
 
@@ -19,10 +21,7 @@ class AdminUsersScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(
-              Icons.exit_to_app_outlined,
-              color: AppColors.white,
-            ),
+            icon: Icon(Icons.exit_to_app_outlined, color: AppColors.white),
             onPressed: () => controller.logout(),
           ),
         ],
@@ -83,6 +82,12 @@ class AdminUsersScreen extends StatelessWidget {
               icon: Icons.report_problem,
               color: AppColors.error,
               onTap: () => controller.toReportsPage(),
+            ),
+            _buildCard(
+              title: 'تغيير عنوان السيرفر',
+              icon: Icons.dns_rounded,
+              color: Colors.blueGrey,
+              onTap: confirmResetServer,
             ),
           ],
         ),

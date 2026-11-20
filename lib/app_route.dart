@@ -32,6 +32,7 @@ import 'views/public_views/posts/create_post_screen.dart';
 import 'views/public_views/posts/feed_screen.dart';
 import 'views/public_views/posts/pending_posts_screen.dart';
 import 'views/public_views/posts/post_detail_screen.dart';
+import 'views/public_views/server_setup_screen.dart';
 import 'views/public_views/settings/change_password_screen.dart';
 import 'views/public_views/settings/contact_admin_screen.dart';
 import 'views/public_views/settings/edit_profile_screen.dart';
@@ -46,6 +47,10 @@ List<GetPage<dynamic>> routes = [
     name: "/",
     page: () => SplashScreen(),
   ),
+  GetPage(
+  name: '/server-setup',
+  page: () => ServerSetupScreen(next: () => const SplashScreen()),
+),
   // ========== AUTH ==========
 
   GetPage(

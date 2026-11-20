@@ -1,5 +1,8 @@
 import 'dart:io';
+
 import 'package:get/get.dart';
+
+import '../../api_link.dart';
 import '../../services/local_storge/local_user_storage.dart'; // المستورد الجديد
 import '../../services/remote/public_remotes/unified_profile_remote.dart';
 import '../../services/remote/crud.dart';
@@ -87,7 +90,7 @@ class UnifiedSettingController extends GetxController {
   Future<void> _applyProfileData(Map data) async {
     fullName.value =
         "${data['first_name'] ?? ''} ${data['father_name'] ?? ''} ${data['last_name'] ?? ''}";
-    profilePicture.value = data['profile_photo']?['url'] ?? "";
+    profilePicture.value = ApiLink.fixUrl(data['profile_photo']?['url']) ?? "";
     phoneNumber.value = data['phone_number'] ?? "";
     bio.value = data['bio'] ?? "";
 
@@ -121,7 +124,8 @@ class UnifiedSettingController extends GetxController {
       switch (result) {
         case ApiSuccess(data: final body):
           statusRequest.value = StatusRequest.success;
-          profilePicture.value = body['data']?['profile_photo']?['url'] ?? "";
+          profilePicture.value =
+              ApiLink.fixUrl(body['data']?['profile_photo']?['url']) ?? "";
           await localStorage.saveProfilePicture(profilePicture.value);
           Get.snackbar('نجاح', 'تم تحديث الصورة');
         case ApiFailure(:final status, :final message):

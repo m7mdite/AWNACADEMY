@@ -1,3 +1,5 @@
+import '../../api_link.dart';
+
 class TreatmentRequestModel {
   // خصائص من TreatmentRequestProcessingSModel
   String? sId;
@@ -261,8 +263,7 @@ class Photo {
 
   Photo.fromJson(Map<String, dynamic> json) {
     publicId = json['publicId'];
-    url = json['url'];
-  }
+url = ApiLink.fixUrl(json['url']);  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

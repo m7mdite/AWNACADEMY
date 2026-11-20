@@ -1,3 +1,5 @@
+import '../../api_link.dart';
+
 class VeifyStudentModel {
   String? sId;
   String? document;
@@ -18,8 +20,7 @@ class VeifyStudentModel {
 
   VeifyStudentModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    document = json['document'];
-    studentProfile = json['student_profile'] != null
+document = ApiLink.fixUrl(json['document']);    studentProfile = json['student_profile'] != null
         ? StudentProfile.fromJson(json['student_profile'])
         : null;
     user = json['user'];
@@ -96,7 +97,7 @@ class ProfilePhoto {
 
   ProfilePhoto.fromJson(Map<String, dynamic> json) {
     publicId = json['publicId'];
-    url = json['url'];
+url = ApiLink.fixUrl(json['url']);
   }
 
   Map<String, dynamic> toJson() {

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../controllers/public_controllers/unified_setting_controller.dart';
+import '../../../services/functions/reset_server.dart';
 import '../../../services/functions/upload_picture.dart';
 import '../../../utils/app_constants/app_images_constant.dart';
 import '../../../utils/app_constants/colors_constant.dart';
@@ -286,6 +287,19 @@ class SettingScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 30),
+                  const SizedBox(height: 20),
+_buildAnimatedItem(
+  position: 11,
+  child: Center(
+    child: DefaultContainerProfile(
+      color: AppColors.error,
+      title: "تغيير عنوان السيرفر",
+      icon: Icons.dns_rounded,
+      onTap: confirmResetServer,
+    ),
+  ),
+),
+const SizedBox(height: 20),
                 ],
               ),
             );

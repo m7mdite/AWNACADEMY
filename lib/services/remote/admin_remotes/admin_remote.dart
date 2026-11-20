@@ -128,4 +128,8 @@ class AdminRemote {
         'body': body,
         'roles': roles,
       });
+
+  // ========== الإحصاءات ==========
+  Future<ApiResult> getStats({int weeks = 8}) =>
+      crud.getData('${ApiLink.adminStats}?weeks=$weeks');
 }

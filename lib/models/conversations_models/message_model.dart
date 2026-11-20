@@ -1,3 +1,5 @@
+import '../../api_link.dart';
+
 class MessageModel {
   final String id;
   // final String conversationId;
@@ -19,19 +21,19 @@ class MessageModel {
     required this.isFromMe,
   });
 
-  factory MessageModel.fromJson(Map<String, dynamic> json) {
-    return MessageModel(
-      id: json['_id'] ?? json['id'],
-      // conversationId: json['conversationId'],
-      sender: json['sender'],
-      content: json['content'] ?? '',
-      messageType: json['message_type'] ?? 'text',
-      isRead: json['isRead'] ?? false,
-      createdAt: DateTime.parse(json['createdAt']),
-      isFromMe: json['is_from_me']?? true
-    );
-  }
-
+factory MessageModel.fromJson(Map<String, dynamic> json) {
+  final type = json['message_type'] ?? 'text';
+  final raw = json['content'] ?? '';
+  return MessageModel(
+    id: json['_id'] ?? json['id'],
+    sender: json['sender'],
+    content: type == 'text' ? raw : (ApiLink.fixUrl(raw) ?? raw),
+    messageType: type,
+    isRead: json['isRead'] ?? false,
+    createdAt: DateTime.parse(json['createdAt']),
+    isFromMe: json['is_from_me'] ?? true,
+  );
+}
   Map<String, dynamic> toJson() => {
     '_id': id,
     // 'conversationId': conversationId,
