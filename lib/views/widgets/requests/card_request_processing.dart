@@ -7,6 +7,7 @@ import '../../../models/requests_models/treatment_request_model.dart';
 import '../../../utils/app_constants/app_images_constant.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../../utils/app_constants/tooth_constants.dart';
+import 'case_progress_strip.dart';
 
 class CardRequestProcessing extends StatelessWidget {
   final TreatmentRequestModel requestModel;
@@ -171,6 +172,7 @@ class CardRequestProcessing extends StatelessWidget {
                 ),
 
                 Divider(color: _dividerColor, height: 8), // ✅
+                CaseProgressStrip(requestModel: requestModel),
 
                 // ===== تنبيه المشرف =====
                 if (requestModel.overseer == null &&

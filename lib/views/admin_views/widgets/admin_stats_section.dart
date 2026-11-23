@@ -110,7 +110,7 @@ class AdminStatsSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [4, 8, 12]
+        children: [4,  8]
             .map((w) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: ChoiceChip(

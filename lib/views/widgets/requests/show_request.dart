@@ -8,7 +8,9 @@ import '../../../utils/app_constants/app_images_constant.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../../utils/app_constants/tooth_constants.dart';
 import '../../public_views/profile_view.dart';
-
+import 'case_photos_section.dart';
+import 'appointment_section.dart';
+import 'stage_evaluations_timeline.dart';
 class ShowRequest extends StatefulWidget {
   final TreatmentRequestModel requestModel;
   final List<Widget> children;
@@ -124,6 +126,11 @@ class _ShowRequestProcessingState extends State<ShowRequest>
                               const SizedBox(height: 12),
                               _buildProfileCards(),
                               const SizedBox(height: 8),
+                               AppointmentSection(requestModel: widget.requestModel),
+                              CasePhotosSection(requestModel: widget.requestModel),
+                              StageEvaluationsTimeline(requestModel: widget.requestModel),
+
+                              // CasePhotosSection(requestModel: widget.requestModel),
                               ...widget.children,
                               const SizedBox(height: 16),
                             ],

@@ -1,8 +1,14 @@
 import '../../api_link.dart';
+import 'case_photos_model.dart';
+import 'appointment_model.dart';
 
 class TreatmentRequestModel {
   // خصائص من TreatmentRequestProcessingSModel
+    AppointmentInfo? appointment;
+
   String? sId;
+  CasePhotos? photos;
+  RetakeRequest? retakeRequest;
   Patient? patient;
   String? status;
   Requestion? requestion;
@@ -20,6 +26,10 @@ class TreatmentRequestModel {
 
   TreatmentRequestModel({
     this.sId,
+        this.appointment,
+
+    this.photos,
+    this.retakeRequest,
     this.patient,
     this.status,
     this.requestion,
@@ -40,6 +50,11 @@ class TreatmentRequestModel {
 
     return TreatmentRequestModel(
       sId: json['_id'],
+            appointment: AppointmentInfo.tryParse(json['appointment']),
+
+      photos: json['photos'] is Map ? CasePhotos.fromJson(json['photos'] as Map) : null,
+      retakeRequest: RetakeRequest.tryParse(json['retake_request']),
+
       rating: json['rating'], // إضافة خاصية التقييم
       feedback: json['feedback'], // إضافة خاصية التعليقات
       // patient - موجود في كلا النوعين
@@ -187,6 +202,8 @@ class Patient {
 
 class Requestion {
   int? painSeverity;
+    bool? allowPortfolio;
+
   String? painTime;
   String? toothLocation;
   String? gender;
@@ -218,6 +235,8 @@ class Requestion {
 
   Requestion.fromJson(Map<String, dynamic> json) {
     painSeverity = json['pain_severity'];
+        allowPortfolio = json['allow_portfolio'] == true;
+
     painTime = json['pain_time'];
     toothLocation = json['tooth_location'];
     gender = json['gender'];

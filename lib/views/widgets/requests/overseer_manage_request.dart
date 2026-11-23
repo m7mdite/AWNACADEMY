@@ -1,3 +1,4 @@
+import 'stage_evaluations_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -182,24 +183,7 @@ class OverseerManageRequest extends StatelessWidget {
                             body: "عرض التقييمات السابقة",
                             fontSize: 12,
                             onTap: () {
-                              Get.dialog(
-                                SubmitDialog(
-                                  children: [
-                                    ...controller
-                                        .selectRequest.stageEvaluations!
-                                        .map((e) => Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Flexible(child: Text(e.text!)),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(e.date!.split('-')[0]),
-                                              ],
-                                            ))
-                                  ],
-                                ),
-                              );
+                              showStageEvaluationsDialog(controller.selectRequest);
                             },
                           ),
                         ),
@@ -220,3 +204,4 @@ class OverseerManageRequest extends StatelessWidget {
     );
   }
 }
+

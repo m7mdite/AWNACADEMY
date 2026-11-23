@@ -11,6 +11,7 @@ import '../../utils/app_constants/app_theme_constants.dart';
 import '../../utils/app_constants/colors_constant.dart';
 import '../../utils/app_constants/status_request.dart';
 import '../widgets/dialog/report_user_dialog.dart';
+import '../widgets/portfolio/portfolio_section.dart';
 
 enum ProfileViewMode { page, dialog }
 /// ============================================================
@@ -355,6 +356,10 @@ class _ProfilePageBody extends StatelessWidget {
                                   'الجنس: ${profile.gender == 'male' ? 'ذكر' : 'أنثى'}'),
                           ]),
                           const SizedBox(height: 24),
+                        ],
+                        if (['student', 'overseer', 'patient'].contains(profile.role) &&
+                            profile.user != null) ...[
+                          PortfolioSection(userId: profile.user!),
                         ],
                         if (profile.bio != null && profile.bio!.isNotEmpty) ...[
                           _sectionTitle('نبذة'),

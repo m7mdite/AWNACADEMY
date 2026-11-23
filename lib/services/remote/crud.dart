@@ -49,7 +49,7 @@ class Crud {
       // الرد ليس JSON (مثل صفحة 502)
       return ApiFailure(
         StatusRequest.serverFailure,
-        message: 'رد غير صالح من الخادم',
+        message: 'رد غير صالح من الخادم (رمز $code)',
         statusCode: code,
       );
     }

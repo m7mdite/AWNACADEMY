@@ -10,6 +10,8 @@ import '../../../utils/app_constants/status_request.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_icon_app_bar.dart';
 import 'edit_profile_screen.dart';
+import '../../widgets/portfolio/portfolio_section.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   final UnifiedSettingController controller = Get.find<UnifiedSettingController>();
@@ -154,7 +156,11 @@ class ProfileScreen extends StatelessWidget {
                         value: controller.bio.value,
                       ),
                     ),
-              
+            
+            if (['student', 'overseer', 'patient'].contains(controller.role.value)) ...[
+                    const SizedBox(height: 12),
+                    const PortfolioSection(userId: 'me'),
+                  ],
                   // ===== بيانات المريض =====
                   if (controller.role.value == 'patient') ...[
                     const SizedBox(height: 12),
