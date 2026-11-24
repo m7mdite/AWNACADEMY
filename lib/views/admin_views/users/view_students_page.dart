@@ -4,6 +4,7 @@ import '../../../controllers/admin_controllers/admin_users_controller.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../../utils/app_constants/status_request.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../widgets/moderation_sheet.dart';
 
 class ViewStudentsPage extends StatelessWidget {
   final AdminUsersControllerImpl controller =
@@ -59,6 +60,13 @@ class ViewStudentsPage extends StatelessWidget {
                   child: ListTile(
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    // اضغط على المستخدم لفتح لوحة الإجراءات (تحذير / إيقاف / حظر)
+                    onTap: student.user == null
+                        ? null
+                        : () => showModerationSheet(
+                              userId: student.user!,
+                              displayName: "${student.firstName ?? ''} ${student.lastName ?? ''}".trim(),
+                            ),
                     leading: CircleAvatar(
                       backgroundColor: AppColors.primary,
                       backgroundImage: (student.profilePhoto != null &&

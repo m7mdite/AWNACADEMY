@@ -9,6 +9,7 @@ import '../../../utils/app_constants/colors_constant.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_icon_app_bar.dart';
 import '../widgets/admin_menu_widgets.dart';
+import '../users/admin_actions_screen.dart';
 
 class AdminUsersScreen extends StatelessWidget {
   final AdminUsersControllerImpl controller = Get.put(
@@ -136,6 +137,12 @@ class AdminUsersScreen extends StatelessWidget {
                             icon: Icons.report_problem,
                             color: AppColors.error,
                             onTap: () => controller.toReportsPage(),
+                          ),
+                           AdminMenuCard(
+                            title: 'سجل الإجراءات',
+                            icon: Icons.history,
+                            color: AppColors.primaryAccent,
+                            onTap: () => Get.to(() => const AdminActionsScreen()),
                           ),
                         ],
                       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mytoothadmin/utils/app_constants/app_constants.dart';
+import 'package:mytoothadmin/utils/app_constants/app_theme_constants.dart';
 
 import '../../../models/requests_models/treatment_request_model.dart';
 import '../../../utils/app_constants/colors_constant.dart';
@@ -49,7 +51,7 @@ class _StageEvaluationsTimelineState extends State<StageEvaluationsTimeline> {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppThemeConstants.borderRadius,
         border: Border.all(color: AppColors.borderColor),
       ),
       child: Column(
@@ -72,7 +74,7 @@ class _StageEvaluationsTimelineState extends State<StageEvaluationsTimeline> {
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: AppThemeConstants.borderRadius,
                 ),
                 child: Text(
                   '$total',
@@ -151,7 +153,7 @@ class _StageEvaluationsTimelineState extends State<StageEvaluationsTimeline> {
                   color: isLatest
                       ? AppColors.primary.withValues(alpha: 0.06)
                       : AppColors.cardColor,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: AppThemeConstants.borderRadius,
                   border: Border.all(
                     color: isLatest
                         ? AppColors.primary.withValues(alpha: 0.5)
@@ -177,7 +179,7 @@ class _StageEvaluationsTimelineState extends State<StageEvaluationsTimeline> {
                             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                             decoration: BoxDecoration(
                               color: AppColors.primary,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: AppThemeConstants.borderRadius,
                             ),
                             child: const Text(
                               'الأحدث',
@@ -187,9 +189,11 @@ class _StageEvaluationsTimelineState extends State<StageEvaluationsTimeline> {
                         ],
                         const Spacer(),
                         if (when != null)
-                          Text(
-                            formatDateTimeAr(when),
-                            style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
+                          Flexible(
+                            child: Text(
+                              formatDateTimeAr(when),
+                              style: TextStyle(fontSize: 10, color: AppColors.textSecondary),
+                            ),
                           ),
                       ],
                     ),

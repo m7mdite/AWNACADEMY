@@ -4,6 +4,7 @@ import '../../../controllers/admin_controllers/admin_users_controller.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../../utils/app_constants/status_request.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../widgets/moderation_sheet.dart';
 
 class ViewPatientesPage extends StatelessWidget {
   final AdminUsersControllerImpl controller = Get.find<AdminUsersControllerImpl>();
@@ -44,6 +45,13 @@ class ViewPatientesPage extends StatelessWidget {
                   child: ListTile(
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    // اضغط على المستخدم لفتح لوحة الإجراءات (تحذير / إيقاف / حظر)
+                    onTap: patient.user == null
+                        ? null
+                        : () => showModerationSheet(
+                              userId: patient.user!,
+                              displayName: "${patient.firstName ?? ''} ${patient.lastName ?? ''}".trim(),
+                            ),
                     leading: CircleAvatar(
                       backgroundColor: AppColors.primary,
                       backgroundImage: (patient.profilePhoto != null &&

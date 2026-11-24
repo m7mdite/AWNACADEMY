@@ -4,6 +4,7 @@ import '../../../controllers/admin_controllers/admin_users_controller.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../../utils/app_constants/status_request.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../widgets/moderation_sheet.dart';
 
 class ViewOverSeersPage extends StatelessWidget {
   final AdminUsersControllerImpl controller =
@@ -47,6 +48,13 @@ class ViewOverSeersPage extends StatelessWidget {
                   child: ListTile(
                     contentPadding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    // اضغط على المشرف لفتح لوحة الإجراءات (تحذير / إيقاف / حظر)
+                    onTap: overSeer.user == null
+                        ? null
+                        : () => showModerationSheet(
+                              userId: overSeer.user!,
+                              displayName: "${overSeer.firstName ?? ''} ${overSeer.lastName ?? ''}".trim(),
+                            ),
                     leading: CircleAvatar(
                       backgroundColor: AppColors.primary,
                       child: Text(
@@ -110,3 +118,4 @@ class ViewOverSeersPage extends StatelessWidget {
     );
   }
 }
+

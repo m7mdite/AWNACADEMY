@@ -5,6 +5,7 @@ import '../../../controllers/admin_controllers/admin_reports_controller.dart';
 import '../../../models/admin_models/report_model.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../widgets/custom_app_bar.dart';
+import '../widgets/moderation_sheet.dart';
 
 class AdminReportsScreen extends StatelessWidget {
   final AdminReportsController controller = Get.put(AdminReportsController());
@@ -95,9 +96,25 @@ class AdminReportsScreen extends StatelessWidget {
                 child: Text('تمت المراجعة: ${_formatDate(report.reviewedAt!)}', style: const TextStyle(fontSize: 11, color: AppColors.success)),
               ),
             const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Wrap(
+              alignment: WrapAlignment.end,
+              spacing: 4,
+              runSpacing: 8,
               children: [
+                // اتخاذ إجراء على المبلغ عنه (تحذير / إيقاف / حظر) ويُغلق البلاغ تلقائياً
+                if (isPending && report.reported?.user != null)
+                  _actionButton(
+                    icon: Icons.gavel,
+                    label: 'اتخاذ إجراء',
+                    color: AppColors.error,
+                    onTap: () => showModerationSheet(
+                      userId: report.reported!.user!,
+                      displayName:
+                          '${report.reported?.firstName ?? ''} ${report.reported?.lastName ?? ''}'.trim(),
+                      reportId: report.sId,
+                      onDone: controller.fetchReports,
+                    ),
+                  ),
                 if (isPending)
                   _actionButton(
                     icon: Icons.done_all,
