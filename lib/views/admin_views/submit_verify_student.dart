@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/admin_controllers/admin_users_controller.dart';
 import '../../models/admin_models/veify_student_model.dart';
+import '../../utils/app_constants/app_theme_constants.dart';
 import '../../utils/app_constants/colors_constant.dart';
 import '../widgets/auth_text_form_field.dart';
 import '../widgets/dialog/submit_dialog.dart';
@@ -28,7 +29,7 @@ class SubmitVerifyStudent extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: AppColors.primary, width: 2),
-            borderRadius: BorderRadius.all(Radius.elliptical(10, 10)),
+            borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
             color: AppColors.white
             // image: DecorationImage(image: AssetImage(AppImages.authBackground), fit: BoxFit.cover),
             ),
@@ -75,7 +76,7 @@ class SubmitVerifyStudent extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                   child: Image.network(
                     studentModel!.document!,
                     fit: BoxFit.cover,
@@ -97,7 +98,7 @@ class SubmitVerifyStudent extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.success,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                     ),
                   ),
                   child: const Text("توثيق"),
@@ -136,7 +137,7 @@ class SubmitVerifyStudent extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.errorAccent,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                     ),
                   ),
                   child: const Text("رفض"),

@@ -12,6 +12,7 @@ class SubmitDialog extends StatelessWidget {
   final void Function()? onTapSubmit;
   final void Function()? onTapCansel;
   final List<Widget>? children;
+  final bool withButton;
 
   const SubmitDialog({
     super.key,
@@ -22,6 +23,7 @@ class SubmitDialog extends StatelessWidget {
     this.onTapCansel,
     this.cancelBottonTitle = "إلغاء",
     this.agreeBottontitle = "تأكيد",
+    this.withButton =true,
   });
 
   @override
@@ -70,6 +72,7 @@ class SubmitDialog extends StatelessWidget {
                   color: AppColors.white,
                   width: 200,
                 ),
+                
                 if (question != "")
                   Flexible(
                     child: Text(
@@ -90,7 +93,7 @@ class SubmitDialog extends StatelessWidget {
                   color: AppColors.white,
                   width: 200,
                 ),
-                Row(
+              if(withButton)  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     InkWell(

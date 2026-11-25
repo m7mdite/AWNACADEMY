@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../utils/app_constants/app_images_constant.dart';
+import '../../utils/app_constants/app_theme_constants.dart';
 import '../../utils/app_constants/colors_constant.dart';
 
 void showsnack( {String? title, String? message}) {
@@ -25,7 +26,7 @@ void showsnack( {String? title, String? message}) {
             fit: BoxFit.cover, // تغطية المساحة بالكامل
             colorFilter: ColorFilter.linearToSrgbGamma()
           ),
-          borderRadius: BorderRadius.circular(16), // تناسق مع حواف GetSnackBar
+          borderRadius: AppThemeConstants.borderRadius, //AppThemeConstants.borderRadius
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),

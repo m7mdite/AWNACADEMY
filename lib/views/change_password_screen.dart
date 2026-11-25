@@ -76,7 +76,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'كلمة المرور الحالية',
                           prefixIcon: Icon(Icons.lock_outline),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          border: OutlineInputBorder(borderRadius: AppThemeConstants.borderRadius),
                         ),
                       ),
                       SizedBox(height: 20),
@@ -87,7 +87,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'كلمة المرور الجديدة',
                           prefixIcon: Icon(Icons.lock_open),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          border: OutlineInputBorder(borderRadius: AppThemeConstants.borderRadius),
                         ),
                       ),
                       SizedBox(height: 20),
@@ -98,7 +98,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'تأكيد كلمة المرور الجديدة',
                           prefixIcon: Icon(Icons.lock_outline),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          border: OutlineInputBorder(borderRadius: AppThemeConstants.borderRadius),
                         ),
                       ),
                       SizedBox(height: 40),

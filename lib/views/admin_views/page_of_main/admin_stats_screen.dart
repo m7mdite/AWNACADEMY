@@ -157,12 +157,12 @@ class AdminStatsScreen extends StatelessWidget {
     final Color color = it.count > 0 ? AppColors.warning : AppColors.success;
     return InkWell(
       onTap: it.onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: AppThemeConstants.borderRadius,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: AppThemeConstants.borderRadius,
           border: Border.all(color: color, width: 1),
         ),
         child: Row(
@@ -369,13 +369,13 @@ class AdminStatsScreen extends StatelessWidget {
                           toY: w[i].newRequests.toDouble(),
                           color: AppColors.primary,
                           width: rodWidth,
-                          borderRadius: BorderRadius.circular(3),
+                          borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                         ),
                         BarChartRodData(
                           toY: w[i].completed.toDouble(),
                           color: AppColors.success,
                           width: rodWidth,
-                          borderRadius: BorderRadius.circular(3),
+                          borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                         ),
                       ],
                     ),
@@ -433,7 +433,7 @@ class AdminStatsScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
+                              borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                               child: LinearProgressIndicator(
                                 value: maxC == 0 ? 0 : e.count / maxC,
                                 minHeight: 8,

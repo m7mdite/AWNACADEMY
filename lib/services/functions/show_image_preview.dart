@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/app_constants/app_theme_constants.dart';
 import '../../utils/app_constants/colors_constant.dart';
 
 void showImagePreview(String imageUrl) {
@@ -18,20 +19,10 @@ void showImagePreview(String imageUrl) {
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.white, width: 2),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.elliptical(100, 10),
-                  bottomLeft: Radius.elliptical(10, 100),
-                  topRight: Radius.elliptical(10, 100),
-                  bottomRight: Radius.elliptical(100, 10),
-                ),
+                borderRadius: AppThemeConstants.borderRadius
               ),
               child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.elliptical(100, 10),
-                  bottomLeft: Radius.elliptical(10, 100),
-                  topRight: Radius.elliptical(10, 100),
-                  bottomRight: Radius.elliptical(100, 10),
-                ),
+                borderRadius: AppThemeConstants.borderRadius,
                 child: InteractiveViewer(
                   minScale: 0.8,
                   maxScale: 4.0,

@@ -111,7 +111,7 @@ class AdminNotifyDialog extends StatelessWidget {
                       hintText: 'عنوان الإشعار...',
                       hintStyle: TextStyle(color: AppColors.grey.shade500),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                         borderSide: BorderSide(color: AppColors.grey300),
                       ),
                       filled: true,
@@ -130,7 +130,7 @@ class AdminNotifyDialog extends StatelessWidget {
                       hintText: 'محتوى الإشعار...',
                       hintStyle: TextStyle(color: AppColors.grey.shade500),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                         borderSide: BorderSide(color: AppColors.grey300),
                       ),
                       filled: true,

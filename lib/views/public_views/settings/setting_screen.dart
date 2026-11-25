@@ -9,6 +9,7 @@ import '../../../controllers/public_controllers/unified_setting_controller.dart'
 import '../../../services/functions/reset_server.dart';
 import '../../../services/functions/upload_picture.dart';
 import '../../../utils/app_constants/app_images_constant.dart';
+import '../../../utils/app_constants/app_theme_constants.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../widgets/build_developer_credit.dart';
 import '../../widgets/custom_app_bar.dart';
@@ -144,7 +145,7 @@ class SettingScreen extends StatelessWidget {
                                   horizontal: 8, vertical: 2),
                               decoration: BoxDecoration(
                                 color: AppColors.primary100,
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: AppThemeConstants.borderRadius,
                               ),
                               child: Text(
                                 controller.getRoleTitle(),
@@ -348,10 +349,11 @@ const SizedBox(height: 20),
     SubmitDialog(
       title: "اختر الثيم",
       question: "",
-      agreeBottontitle: "تم",
-      cancelBottonTitle: "إلغاء",
-      onTapSubmit: () => Get.back(),
-      onTapCansel: () {},
+      withButton: false,
+      // agreeBottontitle: "تم",
+      // cancelBottonTitle: "إلغاء",
+      // onTapSubmit: () => Get.back(),
+      // onTapCansel: () {},
       children: const [
         ThemeSwitcherWidget(),
       ],

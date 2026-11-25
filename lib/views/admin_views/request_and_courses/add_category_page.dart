@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/admin_controllers/admin_request_controller.dart';
+import '../../../utils/app_constants/app_theme_constants.dart';
 import '../../../utils/app_constants/colors_constant.dart';
 import '../../../utils/app_constants/status_request.dart';
 import '../../widgets/custom_app_bar.dart';
@@ -58,7 +59,7 @@ class AddCategoryPage extends StatelessWidget {
                     backgroundColor: AppColors.primaryAccent,
                     padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                     ),
                   ),
                   child: const Text(

@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../controllers/admin_controllers/admin_home_controller.dart';
 import '../../utils/app_constants/app_images_constant.dart';
+import '../../utils/app_constants/app_theme_constants.dart';
 import '../../utils/app_constants/colors_constant.dart';
 import '../widgets/custom_app_bar.dart';
 
@@ -48,7 +49,7 @@ class AdvertisementManagementScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 if (selectedImage != null)
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                     child: Image.file(selectedImage!,
                         height: 100, fit: BoxFit.cover),
                   )
@@ -172,12 +173,12 @@ class AdvertisementManagementScreen extends StatelessWidget {
                 color: AppColors.cardColor,
                 margin: EdgeInsets.only(bottom: 12),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: AppThemeConstants.borderRadius,//AppThemeConstants.borderRadius
                   side: BorderSide(color: AppColors.borderColor, width: 0.6),
                 ),
                 child: ListTile(
                   leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: AppThemeConstants.borderRadius,
                     child: adv.image!.url!.isNotEmpty
                         ? Image.network(adv.image!.url!,
                             width: 60, height: 60, fit: BoxFit.cover)
